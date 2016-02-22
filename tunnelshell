@@ -1,0 +1,2 @@
+#!/bin/bash
+read -n 1 -s -p "You are connected. Press any key to exit..."

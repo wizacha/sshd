@@ -14,10 +14,17 @@ RUN mkdir /var/run/sshd && \
     echo "    AllowTCPForwarding no" >> /etc/ssh/sshd_config && \
     echo "    PermitTunnel no" >> /etc/ssh/sshd_config && \
     echo "    X11Forwarding no" >> /etc/ssh/sshd_config && \
-    echo "    ForceCommand internal-sftp" >> /etc/ssh/sshd_config
+    echo "    ForceCommand internal-sftp" >> /etc/ssh/sshd_config && \
+    echo "Match User mysql" >> /etc/ssh/sshd_config && \
+    echo "    AllowTCPForwarding yes" >> /etc/ssh/sshd_config && \
+    echo "    PermitTunnel no" >> /etc/ssh/sshd_config && \
+    echo "    X11Forwarding no" >> /etc/ssh/sshd_config
 
-COPY start /usr/sbin/start 
-RUN chmod +x /usr/sbin/start
+COPY start /usr/sbin/start
+COPY tunnelshell /bin/tunnelshell
+RUN chmod +x /usr/sbin/start /bin/tunnelshell
 EXPOSE 22
+
+RUN useradd --create-home --shell /bin/tunnelshell mysql
 
 ENTRYPOINT ["/usr/sbin/start"]

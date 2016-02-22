@@ -1,3 +1,5 @@
 #!/bin/sh
 echo root:$1 | chpasswd
+echo mysql:$1 | chpasswd
+echo "    PermitOpen $2" >> /etc/ssh/sshd_config
 /usr/sbin/sshd -D
