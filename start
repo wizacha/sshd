@@ -1,5 +1,9 @@
 #!/bin/sh
-echo root:$1 | chpasswd
+echo www:$1 | chpasswd
 echo mysql:$1 | chpasswd
 echo "    PermitOpen $2" >> /etc/ssh/sshd_config
+
+chown www /var/www/www
+chmod u+rwx /var/www/www
+
 /usr/sbin/sshd -D

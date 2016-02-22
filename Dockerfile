@@ -7,9 +7,9 @@ RUN apt-get update&&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir /var/run/sshd && \
-    sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin yes/' /etc/ssh/sshd_config && \ 
+    sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin no/' /etc/ssh/sshd_config && \
     sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && \
-    echo "Match User root" >> /etc/ssh/sshd_config && \
+    echo "Match User www" >> /etc/ssh/sshd_config && \
     echo "    ChrootDirectory /var/www" >> /etc/ssh/sshd_config && \
     echo "    AllowTCPForwarding no" >> /etc/ssh/sshd_config && \
     echo "    PermitTunnel no" >> /etc/ssh/sshd_config && \
@@ -26,5 +26,9 @@ RUN chmod +x /usr/sbin/start /bin/tunnelshell
 EXPOSE 22
 
 RUN useradd --create-home --shell /bin/tunnelshell mysql
+RUN useradd --create-home --home-dir /var/www --shell /bin/false www
+
+RUN chown root:root /var/www
+RUN chmod go-w /var/www
 
 ENTRYPOINT ["/usr/sbin/start"]
