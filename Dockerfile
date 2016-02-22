@@ -26,8 +26,9 @@ RUN chmod +x /usr/sbin/start /bin/tunnelshell
 EXPOSE 22
 
 RUN useradd --create-home --shell /bin/tunnelshell mysql
-RUN useradd --create-home --home-dir /var/www --shell /bin/false www
+RUN useradd --home-dir /var/www --shell /bin/false www
 
+RUN mkdir /var/www
 RUN chown root:root /var/www
 RUN chmod go-w /var/www
 
