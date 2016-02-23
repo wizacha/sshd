@@ -10,7 +10,7 @@ RUN mkdir /var/run/sshd && \
     sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin no/' /etc/ssh/sshd_config && \
     sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && \
     sed -ri 's/Subsystem sftp \/usr\/lib\/openssh\/sftp-server/Subsystem sftp \/usr\/lib\/openssh\/sftp-server -u 0/g' /etc/ssh/sshd_config && \
-    echo "Match User www" >> /etc/ssh/sshd_config && \
+    echo "Match User www-data" >> /etc/ssh/sshd_config && \
     echo "    ChrootDirectory /var/www" >> /etc/ssh/sshd_config && \
     echo "    AllowTCPForwarding no" >> /etc/ssh/sshd_config && \
     echo "    PermitTunnel no" >> /etc/ssh/sshd_config && \
@@ -27,7 +27,6 @@ RUN chmod +x /usr/sbin/start /bin/tunnelshell
 EXPOSE 22
 
 RUN useradd --create-home --shell /bin/tunnelshell mysql
-RUN useradd --home-dir /var/www --uid 33 --gid 33 --shell /bin/false www
 
 RUN mkdir /var/www
 RUN chown root:root /var/www
