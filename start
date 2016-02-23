@@ -4,6 +4,6 @@ echo mysql:$1 | chpasswd
 echo "    PermitOpen $2" >> /etc/ssh/sshd_config
 
 chown www /var/www/www
-chmod u+rwx /var/www/www
+chmod 777 /var/www/www
 
 /usr/sbin/sshd -D

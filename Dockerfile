@@ -9,6 +9,7 @@ RUN apt-get update&&\
 RUN mkdir /var/run/sshd && \
     sed -ri 's/^PermitRootLogin\s+.*/PermitRootLogin no/' /etc/ssh/sshd_config && \
     sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config && \
+    sed -ri 's/Subsystem sftp \/usr\/lib\/openssh\/sftp-server/Subsystem sftp \/usr\/lib\/openssh\/sftp-server -u 0/g' /etc/ssh/sshd_config && \
     echo "Match User www" >> /etc/ssh/sshd_config && \
     echo "    ChrootDirectory /var/www" >> /etc/ssh/sshd_config && \
     echo "    AllowTCPForwarding no" >> /etc/ssh/sshd_config && \
